@@ -1,0 +1,114 @@
+body {
+    font-family: 'Helvetica', sans-serif;
+    background-color: #3b3f45;
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5c7080;
+    padding: 10px 20px;
+  }
+  
+  .header .title {
+    font-size: 24px;
+    background-color: #c8dafa;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .header .button-group button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  .button-new { background-color: #d8f3c0; }
+  .button-help { background-color: #fff2a8; }
+  .button-settings { background-color: #a0a0a0; }
+  
+  .container {
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .tier-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80px;
+  }
+  
+  .tier-label {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+    border-radius: 4px;
+  }
+  
+  .tier-A { background-color: #d3f4ff; }
+  .tier-B { background-color: #e1f5c4; }
+  .tier-C { background-color: #d7f0ec; }
+  .tier-D { background-color: #fff7bd; }
+  .tier-F { background-color: #ffd6d6; }
+  
+  .grid {
+    background-color: #3f3f3f;
+    border: 2px solid #444;
+    width: 600px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .row {
+    display: flex;
+    gap: 10px;
+    min-height: 60px;
+  }
+  
+  .box {
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  .queue {
+    background-color: #aec2d8;
+    padding: 10px;
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .controls button {
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+  }
+  
