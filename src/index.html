@@ -4,16 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tier List 343</title>
-  <link rel="stylesheet" href="styles/global.css">
+  <link rel="stylesheet" href="styles/tierlist.css">
   <script defer src="scripts/tierlist.js"></script>
 </head>
 <body>
   <header>
-    <h1 id="tier-title" contenteditable="true">Fruit Tier List</h1>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="index.html">New Tierlist</a></li>
         <li><a href="settings.html">Settings</a></li>
         <li><a href="help.html">Help</a></li>
       </ul>
@@ -21,13 +19,14 @@
   </header>
 
   <main>
+    <h1 id="tier-title" contenteditable="true">Tier List Name</h1>
     <section id="tier-list">
       <div class="tier-row tier-yellow">
         <input type="text" class="tier-label" value="A">
-        <div class="tier-content" contenteditable="true"></div>
+        <div class="tier-content" data-dropzone="true"></div>
         <input type="color" class="color-picker" title="Change background color">
-        <button class="move-up" type="button">Move Down</button>
-        <button class="move-down" type="button">Move Up</button>
+        <button class="move-up" type="button">Move Up</button>
+        <button class="move-down" type="button">Move Down</button>
         <button class="delete-row" type="button">Delete</button>
       </div>
     </section>
@@ -36,14 +35,21 @@
       <button id="add-row" type="button">Add New Tier</button>
     </div>
 
-    <!-- Box bar at the bottom -->
     <section id="box-bar">
       <h2>Available Boxes</h2>
       <div id="box-container">
-        <div class="draggable-box" contenteditable="true" draggable="true">Editable Box</div>
+        <div class="draggable-box" contenteditable="true" draggable="true">New Box</div>
       </div>
-
       <button id="add-box" type="button">Add Box</button>
+    </section>
+
+    <section id="youtube-search-bar">
+      <h2>Search YouTube Videos</h2>
+      <form id="youtube-form">
+        <input type="text" id="youtube-query" placeholder="Search YouTube" required>
+        <button type="submit">Search</button>
+      </form>
+      <div id="youtube-results"></div>
     </section>
   </main>
 </body>
