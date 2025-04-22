@@ -9,6 +9,7 @@ body {
   padding: 0;
 }
 
+/* Header/Nav bar */
 header {
   background-color: #1f2937;
   color: white;
@@ -31,6 +32,7 @@ main {
   padding: 1rem;
 }
 
+/* Tier Row Styles */
 .tier-row {
   display: flex;
   align-items: center;
@@ -61,11 +63,7 @@ main {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.tier-content.dropzone-active {
-  border-color: #3498db;
-  background-color: rgba(52, 152, 219, 0.1);
-}
-
+/* Button Styles */
 .color-picker {
   cursor: pointer;
 }
@@ -83,6 +81,7 @@ button:hover {
   background-color: #111827;
 }
 
+/* Youtube Search API Styles */
 #youtube-search-bar {
   margin-top: 2rem;
   background-color: #e0e7ff;
@@ -129,6 +128,7 @@ button:hover {
   width: 100%;
 }
 
+/* Styles for draggable boxes */
 .draggable-box {
   background-color: #fff;
   border: 2px solid #ddd;
@@ -149,40 +149,6 @@ button:hover {
   position: relative;
 }
 
-.draggable-box::after {
-  content: "Double-click to edit";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 9px;
-  color: #999;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 2px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.draggable-box:hover::after {
-  opacity: 1;
-}
-
-.draggable-box.editing::after {
-  content: "Press Enter when done";
-  opacity: 1;
-}
-
-.draggable-box.editing {
-  cursor: text;
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
-}
-
-.draggable-box:empty::before {
-  content: "New Box";
-  color: #aaa;
-}
-
 #add-box {
   background-color: #3498db;
   color: white;
@@ -200,10 +166,10 @@ button:hover {
 
 .draggable-box.dragging {
   transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   cursor: grabbing;
 }
 
+/* Box bar styles */
 #box-container {
   display: flex;
   flex-wrap: wrap;
@@ -223,6 +189,7 @@ button:hover {
   margin-top: 20px;
 }
 
+/* Youtube video styles */
 .video-embed {
   padding: 5px;
   background-color: #f8f9fa;
@@ -242,7 +209,6 @@ button:hover {
 
 .video-embed.dragging {
   transform: scale(1.03);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   cursor: grabbing;
 }
 
@@ -262,46 +228,4 @@ button:hover {
   text-align: center;
   opacity: 0;
   transition: opacity 0.2s ease;
-}
-
-.video-embed:hover .video-mode-indicator {
-  opacity: 1;
-}
-
-.video-play-mode {
-  cursor: default;
-  border: 2px solid #4caf50;
-}
-
-.video-play-mode .video-mode-indicator {
-  background-color: rgba(76, 175, 80, 0.7);
-}
-
-.video-drag-mode {
-  cursor: grab;
-  border: 2px solid #ff9800;
-}
-
-.video-drag-mode .video-mode-indicator {
-  background-color: rgba(255, 152, 0, 0.7);
-}
-
-#tier-title {
-  margin-top: 0;
-  margin-bottom: 20px;
-  padding: 5px;
-  border: 2px solid transparent;
-  border-radius: 4px;
-}
-
-#tier-title:focus {
-  outline: none;
-  border-color: #3498db;
-}
-
-.drag-hint {
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-  margin: 10px 0;
 }

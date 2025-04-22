@@ -3,8 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const boxContainer = document.getElementById("box-container");
   const addBoxButton = document.getElementById("add-box");
 
+  // initializes drag and drop boxes
   initializeDragAndDrop();
 
+  // creates "New Box" and adds it to the box container
   function createNewBox() {
     const newBox = document.createElement("div");
     newBox.classList.add("draggable-box");
@@ -17,8 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     boxContainer.appendChild(newBox);
   }
 
+  // calls createNewBox upon being clicked
   addBoxButton.addEventListener("click", createNewBox);
 
+  // sets the even listeners for boxes and dropzones
   function initializeDragAndDrop() {
     document.querySelectorAll(".draggable-box").forEach(box => {
       box.setAttribute("draggable", "true");
@@ -32,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // allows editing boxes by double-clicking (measure used to bypass previous drag/drop + edit conflict)
   function addEditListeners(element) {
     if (element.classList.contains('video-embed')) return;
 
@@ -59,25 +64,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // creates drag event listeners for boxes/videos
   function addDragListeners(element) {
-    element.removeEventListener("dragstart", handleDragStart);
-    element.removeEventListener("dragend", handleDragEnd);
+    element.removeEventListener("dragstart", dragStart);
+    element.removeEventListener("dragend", dragEnd);
 
-    element.addEventListener("dragstart", handleDragStart);
-    element.addEventListener("dragend", handleDragEnd);
+    element.addEventListener("dragstart", dragStart);
+    element.addEventListener("dragend", dragEnd);
   }
 
+  // creates drop event listeners for dropzones
   function addDropListeners(dropzone) {
-    dropzone.removeEventListener("dragover", handleDragOver);
-    dropzone.removeEventListener("dragleave", handleDragLeave);
-    dropzone.removeEventListener("drop", handleDrop);
+    dropzone.removeEventListener("dragover", dragOver);
+    dropzone.removeEventListener("dragleave", dragLeave);
+    dropzone.removeEventListener("drop", dragDrop);
 
-    dropzone.addEventListener("dragover", handleDragOver);
-    dropzone.addEventListener("dragleave", handleDragLeave);
-    dropzone.addEventListener("drop", handleDrop);
+    dropzone.addEventListener("dragover", dragOver);
+    dropzone.addEventListener("dragleave", dragLeave);
+    dropzone.addEventListener("drop", dragDrop);
   }
 
-  function handleDragStart(e) {
+  // handles start of dragging
+  function dragStart(e) {
     if (this.classList.contains("editing")) {
       e.preventDefault();
       return;
@@ -123,7 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 0);
   }
 
-  function handleDragEnd(e) {
+  // stops drag state after dragging ends
+  function dragEnd(e) {
     this.classList.remove("dragging");
     this.style.opacity = "";
 
@@ -138,7 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.dragSource = null;
   }
 
-  function handleDragOver(e) {
+  // highlights drop zones when dragging elements across them
+  function dragOver(e) {
     e.preventDefault();
     this.classList.add("dropzone-active");
 
@@ -149,11 +159,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function handleDragLeave(e) {
+  // removes effects of dragOver
+  function dragLeave(e) {
     this.classList.remove("dropzone-active");
   }
 
-  function handleDrop(e) {
+  // implements dropping items into dropzones
+  function dragDrop(e) {
     e.preventDefault();
     this.classList.remove("dropzone-active");
 
@@ -183,6 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // creates the youtube embed/draggable item state according to Youtube API
   function createVideoEmbed(container, videoId, title = "") {
     const wrapper = document.createElement("div");
     wrapper.className = "draggable-box video-embed";
@@ -204,14 +217,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     addDragListeners(wrapper);
 
-    addVideoInteractionHandler(wrapper);
+    addVideoInteraction(wrapper);
 
     container.appendChild(wrapper);
 
     return wrapper;
   }
 
-  function addVideoInteractionHandler(videoWrapper) {
+  // adds drag and drop/play modes to embed elements (wrappers)
+  function addVideoInteraction(videoWrapper) {
     if (videoWrapper.hasAttribute('data-has-handler')) return;
 
     videoWrapper.setAttribute('data-has-handler', 'true');
@@ -245,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     videoWrapper.appendChild(overlay);
   }
 
+  //handles row functionality
   function rowControls(row) {
     row.querySelector(".color-picker").addEventListener("input", function () {
       row.style.backgroundColor = this.value;
@@ -271,9 +286,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //initializes first row upon startup
   const firstRow = document.querySelector(".tier-row");
   rowControls(firstRow);
 
+  //creates new row with buttons/dropzone
   document.getElementById("add-row").addEventListener("click", () => {
     const row = document.createElement("div");
     row.className = "tier-row";
@@ -290,6 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("tier-list").appendChild(row);
   });
 
+  // youtube search handler according to API
   const form = document.getElementById("youtube-form");
   const queryInput = document.getElementById("youtube-query");
   const resultsContainer = document.getElementById("youtube-results");
@@ -314,6 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // allows for video results to be displayed as draggable boxes
   function displayResults(videos) {
     resultsContainer.innerHTML = "";
 
