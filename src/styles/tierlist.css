@@ -52,12 +52,18 @@ main {
   flex: 1;
   min-height: 70px;
   background-color: #fff;
-  border: 1px dashed #aaa;
+  border: 2px dashed #ccc;
   border-radius: 4px;
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.tier-content.dropzone-active {
+  border-color: #3498db;
+  background-color: rgba(52, 152, 219, 0.1);
 }
 
 .color-picker {
@@ -121,4 +127,181 @@ button:hover {
 .youtube-result button {
   margin-top: 0.5rem;
   width: 100%;
+}
+
+.draggable-box {
+  background-color: #fff;
+  border: 2px solid #ddd;
+  padding: 15px;
+  width: 150px;
+  min-width: 100px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: grab;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow: hidden;
+  display: inline-block;
+  box-sizing: border-box;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  position: relative;
+}
+
+.draggable-box::after {
+  content: "Double-click to edit";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 9px;
+  color: #999;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.draggable-box:hover::after {
+  opacity: 1;
+}
+
+.draggable-box.editing::after {
+  content: "Press Enter when done";
+  opacity: 1;
+}
+
+.draggable-box.editing {
+  cursor: text;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+
+.draggable-box:empty::before {
+  content: "New Box";
+  color: #aaa;
+}
+
+#add-box {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#add-box:hover {
+  background-color: #2980b9;
+}
+
+.draggable-box.dragging {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  cursor: grabbing;
+}
+
+#box-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 15px;
+  min-height: 100px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+#box-bar {
+  background-color: #f0f4f8;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.video-embed {
+  padding: 5px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  cursor: grab;
+  display: inline-block;
+  border-radius: 4px;
+  width: auto;
+  position: relative;
+}
+
+.video-embed iframe {
+  display: block;
+  border: none;
+  pointer-events: auto;
+}
+
+.video-embed.dragging {
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  cursor: grabbing;
+}
+
+.video-embed.dragging iframe {
+  pointer-events: none;
+}
+
+.video-mode-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 10px;
+  padding: 3px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.video-embed:hover .video-mode-indicator {
+  opacity: 1;
+}
+
+.video-play-mode {
+  cursor: default;
+  border: 2px solid #4caf50;
+}
+
+.video-play-mode .video-mode-indicator {
+  background-color: rgba(76, 175, 80, 0.7);
+}
+
+.video-drag-mode {
+  cursor: grab;
+  border: 2px solid #ff9800;
+}
+
+.video-drag-mode .video-mode-indicator {
+  background-color: rgba(255, 152, 0, 0.7);
+}
+
+#tier-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding: 5px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+}
+
+#tier-title:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.drag-hint {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin: 10px 0;
 }
