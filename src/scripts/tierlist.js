@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const YOUTUBE_API_KEY = 'AIzaSyAzdyFppWQIDrYoicEcfsYrqsJm_uz8C-o';
+  const GIPHY_API_KEY = 'VzBenkD4o9OpnBmWdjeykoAUgfGWLLYD';
   const boxContainer = document.getElementById("box-container");
   const addBoxButton = document.getElementById("add-box");
 
