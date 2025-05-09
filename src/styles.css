@@ -112,3 +112,75 @@ body {
     color: black;
   }
   
+
+  @media screen and (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+   
+   
+    .grid {
+      width: 90%;
+    }
+   
+   
+    .container {
+      gap: 20px;
+      padding: 10px;
+    } 
+   
+   
+    .tier-column {
+      width: 60px;
+    }
+   
+   
+    .tier-label {
+      font-size: 12px;
+      padding: 8px;
+    }
+   }
+    @media screen and (max-width: 480px) {
+    .header {
+      padding: 10px;
+    }
+     .header .title {
+      font-size: 20px;
+    }
+     .header .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+   
+   
+    .grid {
+      width: 100%;
+      padding: 10px 5px;
+    }
+    
+    .container {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+     .tier-column {
+      width: 100%;
+      flex-direction: row;
+      overflow-x: auto;
+    }
+    
+    .tier-label {
+      font-size: 12px;
+      padding: 5px;
+      min-width: 60px;
+    }
+     .controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    } 
+   }
+   
