@@ -54,13 +54,12 @@ main {
   flex: 1;
   min-height: 70px;
   background-color: #fff;
-  border: 2px dashed #ccc;
+  border: 2px #ccc;
   border-radius: 4px;
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 /* Button Styles */
@@ -128,6 +127,63 @@ button:hover {
   width: 100%;
 }
 
+/* Giphy Search API Styles */
+#giphy-search-bar {
+  margin-top: 2rem;
+  background-color: #f8e0ff;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+#giphy-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+#giphy-query {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+#giphy-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gif-result {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 250px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+}
+
+.gif-result img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.gif-result p {
+  margin: 5px 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.gif-result .drag-hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
 /* Styles for draggable boxes */
 .draggable-box {
   background-color: #fff;
@@ -145,7 +201,6 @@ button:hover {
   overflow: hidden;
   display: inline-block;
   box-sizing: border-box;
-  transition: transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   position: relative;
 }
 
@@ -165,7 +220,6 @@ button:hover {
 }
 
 .draggable-box.dragging {
-  transform: scale(1.05);
   cursor: grabbing;
 }
 
@@ -204,7 +258,6 @@ button:hover {
 .video-embed iframe {
   display: block;
   border: none;
-  pointer-events: auto;
 }
 
 .video-embed.dragging {
@@ -212,8 +265,34 @@ button:hover {
   cursor: grabbing;
 }
 
-.video-embed.dragging iframe {
-  pointer-events: none;
+/* GIF embed styles */
+.gif-embed {
+  padding: 5px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  cursor: grab;
+  display: inline-block;
+  border-radius: 4px;
+  width: 200px;
+  position: relative;
+}
+
+.gif-embed img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+.gif-embed.dragging {
+  transform: scale(1.03);
+  cursor: grabbing;
+}
+
+/* Dropzone active style */
+.tier-content.dropzone-active {
+  border-color: #3498db;
+  background-color: #eef7fd;
 }
 
 .video-mode-indicator {
@@ -227,5 +306,40 @@ button:hover {
   padding: 3px;
   text-align: center;
   opacity: 0;
-  transition: opacity 0.2s ease;
+}
+
+
+/* Search section styles */
+.search-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.search-section {
+  flex: 1;
+}
+
+.tab {
+  padding: 10px 20px;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab.active {
+  background-color: #e0e7ff;
+}
+
+.tab:nth-child(2).active {
+  background-color: #f8e0ff;
+}
+
+.search-content {
+  display: none;
+}
+
+.search-content.active {
+  display: block;
 }

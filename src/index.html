@@ -16,7 +16,6 @@
       </ul>
     </nav>
   </header>
-
   <main>
     <h1 id="tier-title" contenteditable="true">Tier List Name</h1>
     <section id="tier-list">
@@ -29,7 +28,6 @@
         <button class="delete-row" type="button">Delete</button>
       </div>
     </section>
-
     <div class="add-row-container">
       <button id="add-row" type="button">Add New Tier</button>
     </div>
@@ -43,7 +41,14 @@
       <button id="add-box" type="button">Add Box</button>
     </section>
 
-    <section id="youtube-search-bar">
+    <!-- Media Search Tabs -->
+    <div class="tab-container">
+      <button type="button" class="tab active" data-target="youtube-search-bar">YouTube Search</button>
+      <button type="button" class="tab" data-target="giphy-search-bar">GIF Search</button>
+    </div>
+
+    <!-- YouTube Search Section -->
+    <section id="youtube-search-bar" class="search-content active">
       <h2>Search YouTube Videos</h2>
       <form id="youtube-form">
         <input type="text" id="youtube-query" placeholder="Search YouTube" required>
@@ -51,6 +56,33 @@
       </form>
       <div id="youtube-results"></div>
     </section>
+
+    <!-- Giphy Search Section -->
+    <section id="giphy-search-bar" class="search-content">
+      <h2>Search GIFs</h2>
+      <form id="giphy-form">
+        <input type="text" id="giphy-query" placeholder="Search Giphy" required>
+        <button type="submit">Search</button>
+      </form>
+      <div id="giphy-results"></div>
+    </section>
   </main>
+
+  <script>
+    // Tab functionality
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        document.querySelectorAll('.search-content').forEach(content => {
+          content.classList.remove('active');
+        });
+
+        const targetId = tab.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>

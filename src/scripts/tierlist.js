@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // allows editing boxes by double-clicking (measure used to bypass previous drag/drop + edit conflict)
   function addEditListeners(element) {
-    if (element.classList.contains('video-embed')) return;
+    if (element.classList.contains('video-embed') || element.classList.contains('gif-embed')) return;
 
     element.removeAttribute("contenteditable");
 
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // creates drag event listeners for boxes/videos
+  // creates drag event listeners for boxes/videos/gifs
   function addDragListeners(element) {
     element.removeEventListener("dragstart", dragStart);
     element.removeEventListener("dragend", dragEnd);
@@ -105,11 +105,23 @@ document.addEventListener("DOMContentLoaded", () => {
       dataType = "youtube-item";
       e.dataTransfer.setData("video/id", this.getAttribute("data-video-id"));
       e.dataTransfer.setData("video/title", this.getAttribute("data-title"));
+    } else if (this.classList.contains('gif-result')) {
+      dataType = "gif-item";
+      e.dataTransfer.setData("gif/id", this.getAttribute("data-gif-id"));
+      e.dataTransfer.setData("gif/url", this.getAttribute("data-gif-url"));
+      e.dataTransfer.setData("gif/title", this.getAttribute("data-title"));
     } else if (this.classList.contains('video-embed')) {
       dataType = "video-embed";
       if (this.hasAttribute("data-video-id")) {
         e.dataTransfer.setData("video/id", this.getAttribute("data-video-id"));
         e.dataTransfer.setData("video/title", this.getAttribute("data-title") || "");
+      }
+    } else if (this.classList.contains('gif-embed')) {
+      dataType = "gif-embed";
+      if (this.hasAttribute("data-gif-id")) {
+        e.dataTransfer.setData("gif/id", this.getAttribute("data-gif-id"));
+        e.dataTransfer.setData("gif/url", this.getAttribute("data-gif-url"));
+        e.dataTransfer.setData("gif/title", this.getAttribute("data-title") || "");
       }
     }
 
@@ -120,7 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.dragSource = "tier";
     } else {
       e.dataTransfer.effectAllowed = "copy";
-      window.dragSource = this.classList.contains('youtube-result') ? "youtube" : "container";
+      window.dragSource = this.classList.contains('youtube-result') ? "youtube" :
+                          this.classList.contains('gif-result') ? "giphy" : "container";
     }
 
     window.draggedElement = this;
@@ -185,6 +198,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const title = e.dataTransfer.getData("video/title");
 
         createVideoEmbed(this, videoId, title);
+      } else if (window.dragSource === "giphy" && dataType === "gif-item") {
+        const gifId = e.dataTransfer.getData("gif/id");
+        const gifUrl = e.dataTransfer.getData("gif/url");
+        const title = e.dataTransfer.getData("gif/title");
+
+        createGifEmbed(this, gifId, gifUrl, title);
       }
     } else if (dataType === "video-embed") {
       const videoId = e.dataTransfer.getData("video/id");
@@ -192,6 +211,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (videoId) {
         createVideoEmbed(this, videoId, title);
+      }
+    } else if (dataType === "gif-embed") {
+      const gifId = e.dataTransfer.getData("gif/id");
+      const gifUrl = e.dataTransfer.getData("gif/url");
+      const title = e.dataTransfer.getData("gif/title");
+
+      if (gifId) {
+        createGifEmbed(this, gifId, gifUrl, title);
       }
     }
   }
@@ -219,6 +246,32 @@ document.addEventListener("DOMContentLoaded", () => {
     addDragListeners(wrapper);
 
     addVideoInteraction(wrapper);
+
+    container.appendChild(wrapper);
+
+    return wrapper;
+  }
+
+  // creates the gif embed/draggable item
+  function createGifEmbed(container, gifId, gifUrl, title = "") {
+    const wrapper = document.createElement("div");
+    wrapper.className = "draggable-box gif-embed";
+    wrapper.setAttribute("draggable", "true");
+    if (title) wrapper.setAttribute("title", title);
+
+    wrapper.setAttribute("data-gif-id", gifId);
+    wrapper.setAttribute("data-gif-url", gifUrl);
+    if (title) wrapper.setAttribute("data-title", title);
+
+    const gifImage = document.createElement("img");
+    gifImage.src = gifUrl;
+    gifImage.alt = title || "GIF";
+    gifImage.style.width = "100%";
+    gifImage.style.borderRadius = "4px";
+
+    wrapper.appendChild(gifImage);
+
+    addDragListeners(wrapper);
 
     container.appendChild(wrapper);
 
@@ -309,13 +362,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // youtube search handler according to API
-  const form = document.getElementById("youtube-form");
-  const queryInput = document.getElementById("youtube-query");
-  const resultsContainer = document.getElementById("youtube-results");
+  const youtubeForm = document.getElementById("youtube-form");
+  const youtubeQueryInput = document.getElementById("youtube-query");
+  const youtubeResultsContainer = document.getElementById("youtube-results");
 
-  form.addEventListener("submit", async (e) => {
+  youtubeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const query = queryInput.value.trim();
+    const query = youtubeQueryInput.value.trim();
     if (!query) return;
 
     try {
@@ -323,19 +376,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (data.items && data.items.length > 0) {
-        displayResults(data.items);
+        displayYoutubeResults(data.items);
       } else {
-        resultsContainer.innerHTML = "<p>No results found.</p>";
+        youtubeResultsContainer.innerHTML = "<p>No results found.</p>";
       }
     } catch (error) {
-      resultsContainer.innerHTML = "<p>Error fetching videos. Please try again.</p>";
+      youtubeResultsContainer.innerHTML = "<p>Error fetching videos. Please try again.</p>";
       console.error("YouTube API error:", error);
     }
   });
 
   // allows for video results to be displayed as draggable boxes
-  function displayResults(videos) {
-    resultsContainer.innerHTML = "";
+  function displayYoutubeResults(videos) {
+    youtubeResultsContainer.innerHTML = "";
 
     videos.forEach(video => {
       const videoId = video.id.videoId;
@@ -356,7 +409,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
       addDragListeners(box);
 
-      resultsContainer.appendChild(box);
+      youtubeResultsContainer.appendChild(box);
+    });
+  }
+
+  // GIPHY Search Implementation
+  const giphyForm = document.getElementById("giphy-form");
+  const giphyQueryInput = document.getElementById("giphy-query");
+  const giphyResultsContainer = document.getElementById("giphy-results");
+
+  giphyForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const query = giphyQueryInput.value.trim();
+    if (!query) return;
+
+    try {
+      const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(query)}&limit=6&rating=g`);
+      const data = await res.json();
+
+      if (data.data && data.data.length > 0) {
+        displayGiphyResults(data.data);
+      } else {
+        giphyResultsContainer.innerHTML = "<p>No GIFs found.</p>";
+      }
+    } catch (error) {
+      giphyResultsContainer.innerHTML = "<p>Error fetching GIFs. Please try again.</p>";
+      console.error("GIPHY API error:", error);
+    }
+  });
+
+  // displays GIPHY results as draggable boxes
+  function displayGiphyResults(gifs) {
+    giphyResultsContainer.innerHTML = "";
+
+    gifs.forEach(gif => {
+      const gifId = gif.id;
+      const title = gif.title;
+      const gifUrl = gif.images.fixed_height.url; // 200px height version
+
+      const box = document.createElement("div");
+      box.className = "gif-result";
+      box.setAttribute("draggable", "true");
+      box.setAttribute("data-gif-id", gifId);
+      box.setAttribute("data-gif-url", gifUrl);
+      box.setAttribute("data-title", title);
+
+      box.innerHTML = `
+        <img src="${gifUrl}" alt="${title}">
+        <p>${title}</p>
+        <div class="drag-hint">Drag to add to tier</div>
+      `;
+
+      addDragListeners(box);
+
+      giphyResultsContainer.appendChild(box);
     });
   }
 });
